@@ -84,6 +84,15 @@ bool check_block(int arr[11][11], int piece_x, int piece_y){
     return false;
 }
 
+int move_piece(int *board[11][11], int piece_x, int piece_y, int new_x, int new_y){
+    if (check_block(board,piece_x,piece_y) == true) return 1;
+    //if(valid_move(board,piece_x,piece_y,new_x,new_y) == false) return 2;
+
+    *board[new_x,new_y] = *board[piece_x,piece_y];
+    *board[piece_x,piece_y] = 0;
+    
+    return 0;
+}
 
 /*
     [1][0][0][0][2][-1][-1][-1][-1]
