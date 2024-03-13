@@ -1,4 +1,4 @@
-#include <stdio.h>
+	#include <stdio.h>
 #include <stdbool.h>
 
 void print_board(int arr[11][11])
@@ -84,6 +84,202 @@ bool check_block(int arr[11][11], int piece_x, int piece_y){
     return false;
 }
 
+bool isneighbour (int arr[11][11], int x1, int y1, int x2, int y2) {
+    int movement[2] = {x2 - x1, y2 - y1};
+
+    if (movement[0] < -1 || movement[0] > 1 || movement[1] < -1 || movement[1] > 1) return false;
+
+    if (y1 < 5 && ( (movement[0] == 1 && movement[1] == -1) || (movement[0] == -1 && movement[1] == 1) )) return false;
+
+    else if (y1 == 5 && ( (movement[0] == 1 && movement[1] == -1 ) || (movement[0] == 1 && movement[1] == 1) )) return false;
+
+    else if (y1 > 5 && ( (movement[0] == -1 && movement[1] == -1) || movement[0] == 1 && movement[1] == 1 )) return false;
+
+    return true;
+}
+
+bool check_jump(int arr[11][11], int player, int direction, int x, int y) {
+
+    int opp = player == 1 ? 2 : 1;
+
+    printf("x: %i   y: %i\n", x, y);
+
+    if (y < 5) {
+        switch (direction) {
+            case 0: //up-left
+                if (arr[y - 1][x - 1] == player) return check_jump(arr, player, direction, x-1, y-1);
+                else if (arr[y - 1][x - 1] == 0 || arr[y - 1][x - 1] == opp) return true;
+                else return false;
+                break;
+            case 1: //up-right
+                if (arr[y - 1][x] == player) return check_jump(arr, player, direction, x, y-1);
+                else if (arr[y - 1][x] == 0 || arr[y - 1][x] == opp) return true;
+                else return false;
+                break;
+            case 2: //left
+                if (arr[y][x - 1] == player) return check_jump(arr, player, direction, x-1, y);
+                else if (arr[y][x - 1] == 0 || arr[y][x - 1] == opp) return true;
+                else return false;
+                break;
+            case 3: //right
+                if (arr[y][x + 1] == player) return check_jump(arr, player, direction, x+1, y);
+                else if (arr[y][x + 1] == 0 || arr[y][x + 1] == opp) return true;
+                else return false;
+                break;
+            case 4: //down-left
+                if (arr[y + 1][x] == player) return check_jump(arr, player, direction, x, y+1);
+                else if (arr[y + 1][x] == 0 || arr[y + 1][x] == opp) return true;
+                else return false;
+                break;
+            case 5: //down-right
+                if (arr[y + 1][x + 1] == player) return check_jump(arr, player, direction, x+1, y+1);
+                else if (arr[y + 1][x + 1] == 0 || arr[y + 1][x + 1] == opp) return true;
+                else return false;
+                break;
+        }
+    }
+
+    else if (y == 5) {
+        switch (direction) {
+            case 0: //up-left
+                if (arr[y - 1][x - 1] == player) return check_jump(arr, player, direction, x-1, y-1);
+                else if (arr[y - 1][x - 1] == 0 || arr[y - 1][x - 1] == opp) return true;
+                else return false;
+                break;
+            case 1: //up-right
+                if (arr[y - 1][x] == player) return check_jump(arr, player, direction, x, y-1);
+                else if (arr[y - 1][x] == 0 || arr[y - 1][x] == opp) return true;
+                else return false;
+                break;
+            case 2: //left
+                if (arr[y][x - 1] == player) return check_jump(arr, player, direction, x-1, y);
+                else if (arr[y][x - 1] == 0 || arr[y][x - 1] == opp) return true;
+                else return false;
+                break;
+            case 3: //right
+                if (arr[y][x + 1] == player) return check_jump(arr, player, direction, x+1, y);
+                else if (arr[y][x + 1] == 0 || arr[y][x + 1] == opp) return true;
+                else return false;
+                break;
+            case 4: //down-left
+               // if (arr[y + 1][x - 1] == player) return check_jump(arr, player, direction, y+1, x-1);
+                if (arr[y + 1][x - 1] == player) return check_jump(arr, player, direction, x-1, y+1);
+                else if (arr[y + 1][x - 1] == 0 || arr[y + 1][x - 1] == opp) return true;
+                else return false;
+                break;
+            case 5: //down-right
+                //if (arr[y + 1][x] == player) return check_jump(arr, player, direction, y+1, x);
+                if (arr[y + 1][x] == player) return check_jump(arr, player, direction, x, y+1);
+                else if (arr[y + 1][x] == 0 || arr[y + 1][x] == opp) return true;
+                else return false;
+                break;
+        }
+    }
+
+    else if (y < 5) {
+        switch (direction) {
+            case 0: //up-left
+                if (arr[y - 1][x] == player) return check_jump(arr, player, direction, x, y-1);
+                else if (arr[y - 1][x] == 0 || arr[y - 1][x] == opp) return true;
+                else return false;
+                break;
+            case 1: //up-right
+                if (arr[y - 1][x + 1] == player) return check_jump(arr, player, direction, x+1, y-1);
+                else if (arr[y - 1][x + 1] == 0 || arr[y - 1][x + 1] == opp) return true;
+                else return false;
+                break;
+            case 2: //left
+                if (arr[y][x - 1] == player) return check_jump(arr, player, direction, x-1, y);
+                else if (arr[y][x - 1] == 0 || arr[y][x - 1] == opp) return true;
+                else return false;
+                break;
+            case 3: //right
+                if (arr[y][x + 1] == player) return check_jump(arr, player, direction, x+1, y);
+                else if (arr[y][x + 1] == 0 || arr[y][x + 1] == opp) return true;
+                else return false;
+                break;
+            case 4: //down-left
+                if (arr[y + 1][x - 1] == player) return check_jump(arr, player, direction, x-1, y+1);
+                else if (arr[y + 1][x - 1] == 0 || arr[y + 1][x - 1] == opp) return true;
+                else return false;
+                break;
+            case 5: //down-right
+                if (arr[y + 1][x] == player) return check_jump(arr, player, direction, x, y+1);
+                else if (arr[y + 1][x] == 0 || arr[y + 1][x] == opp) return true;
+                else return false;
+                break;
+        }
+    }
+}
+
+bool check_move(int arr[11][11], int xi, int yi, int xf, int yf) {
+    // check neighbours, if move is a jump, check the direction of the movement so that the jump is made in one direction only (up-right/up-left/down-right/down-left)
+    // maybe fazer x_f - x_i e y_f - y_i para calcular direção ou para checkar se destino é neighbour
+
+    int current_color = arr[xi][yi];
+    int enemy_color = current_color == 1 ? 2 : 1;
+    int direction; //0 - ub ; 1 - uf ; 2 - back ; 3 - for ; 4 - db ; 5 - df
+    int movement[2] = {xf - xi, yf - yi};
+
+    printf("Movement:\n x: %i\n y: %i\n", movement[0], movement[1]);
+
+    if (!isneighbour(arr, xi, yi, xf, yf)) return false;
+
+    printf("Dest value: %i\n", arr[yf][xf]);
+
+    if (arr[yf][xf] == 0) return true; // move to blank space
+
+    printf("Checkpoint\n");
+
+    if (arr[yf][xf] == current_color) {
+        if (yi < 5) {
+            if (movement[1] == -1) {
+                if (movement[0] == -1) direction = 0;
+                else direction = 1;
+            }
+            else if (movement[1] == 0) {
+                if (movement[0] == -1) direction = 2;
+                else direction = 3;
+            }
+            else {
+                if (movement[0] == 0) direction = 4;
+                else direction = 5;
+            }
+        }
+        
+        else if (yi == 5) {
+            if (movement[1] == -1) {
+                if (movement[0] == -1) direction = 0;
+                else direction = 1;
+            }
+            else if (movement[1] == 0) {
+                if (movement[0] == -1) direction = 2;
+                else direction = 3;
+            }
+            else {
+                if (movement[0] == -1) direction = 4;
+                else direction = 5;
+            }
+        }
+
+        else if (yi > 5) {
+            if (movement[1] == -1) {
+                if (movement[0] == 0) direction = 0;
+                else direction = 1;
+            }
+            else if (movement[1] == 0) {
+                if (movement[0] == -1) direction = 2;
+                else direction = 3;
+            }
+            else {
+                if (movement[0] == -1) direction = 4;
+                else direction = 5;
+            }
+        }
+        check_jump(arr, current_color, direction, xf, yf);
+    }
+}
+/*
 int move_piece(int *board[11][11], int piece_x, int piece_y, int new_x, int new_y){
     if (check_block(board,piece_x,piece_y) == true) return 1;
     //if(valid_move(board,piece_x,piece_y,new_x,new_y) == false) return 2;
@@ -92,7 +288,7 @@ int move_piece(int *board[11][11], int piece_x, int piece_y, int new_x, int new_
     *board[piece_x,piece_y] = 0;
     
     return 0;
-}
+}*/
 
 /*
     [1][0][0][0][2][-1][-1][-1][-1]
@@ -118,6 +314,29 @@ int main() {
                        {-1,1,0,0,0,0,2,-1,-1,-1,-1},
                        {-1,1,0,0,0,2,-1,-1,-1,-1,-1},
                        {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
-    print_board(board);
+
+        int test_board[11][11]={{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+                       {-1,1,0,0,0,2,-1,-1,-1,-1,-1},
+                       {-1,1,0,0,0,0,2,-1,-1,-1,-1},
+                       {-1,1,0,0,0,0,0,2,-1,-1,-1},
+                       {-1,1,0,0,0,0,0,0,2,-1,-1},
+                       {-1,0,1,0,0,0,0,0,2,0,-1},
+                       {-1,1,2,0,0,0,0,0,2,-1,-1},
+                       {-1,1,2,0,0,0,0,2,-1,-1,-1},
+                       {-1,1,0,0,0,0,2,-1,-1,-1,-1},
+                       {-1,1,0,0,0,2,-1,-1,-1,-1,-1},
+                       {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
+    
+    print_board(test_board);
+    /*bool check = check_move(board, 1, 1, 1, 2);
+    printf("Check1: %d\n", check);
+    bool check2 = check_move(board, 8, 5, 7, 4);
+    printf("Check2: %d\n", check2);
+    bool check3 = check_move(board, 1, 8, 2, 8);
+    printf("Check3: %d\n",check3);*/
+
+    bool check = check_jump(test_board, 1, 5, 1, 4);
+    printf("Check1: %d\n", check);
     return 0;
 }
+
