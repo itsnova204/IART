@@ -42,43 +42,43 @@ void print_board(int arr[11][11])
 }
 
 bool check_block(int arr[11][11], int piece_x, int piece_y){
-    int current_color = arr[piece_x][piece_y];
+    int current_color = arr[piece_y][piece_x];
     int enemy_color = current_color == 1 ? 2 : 1;
 
     if (piece_y<5)
     {
-        if (arr[piece_x][piece_y+1] == enemy_color) return true; //topo direito
-        if (arr[piece_x-1][piece_y+1] == enemy_color) return true; //topo esquerdo
+        if (arr[piece_y+1][piece_x] == enemy_color) return true; //topo direito
+        if (arr[piece_y+1][piece_x-1] == enemy_color) return true; //topo esquerdo
 
-        if (arr[piece_x+1][piece_y] == enemy_color) return true; //direita
-        if (arr[piece_x-1][piece_y] == enemy_color) return true; //esquerdo
+        if (arr[piece_y][piece_x+1] == enemy_color) return true; //direita
+        if (arr[piece_y][piece_x-1] == enemy_color) return true; //esquerdo
 
-        if (arr[piece_x+1][piece_y-1] == enemy_color) return true; //baixo direito
-        if (arr[piece_x][piece_y-1] == enemy_color) return true; //baixo esquerdo
+        if (arr[piece_y-1][piece_x+1] == enemy_color) return true; //baixo direito
+        if (arr[piece_y-1][piece_x] == enemy_color) return true; //baixo esquerdo
     }
 
     if (piece_y==5)
     {
-        if (arr[piece_x][piece_y+1] == enemy_color) return true; //topo direito
-        if (arr[piece_x-1][piece_y+1] == enemy_color) return true; //topo esquerdo
+        if (arr[piece_y+1][piece_x] == enemy_color) return true; //topo direito
+        if (arr[piece_y+1][piece_x-1] == enemy_color) return true; //topo esquerdo
 
-        if (arr[piece_x+1][piece_y] == enemy_color) return true; //direita
-        if (arr[piece_x-1][piece_y] == enemy_color) return true; //esquerdo
+        if (arr[piece_y][piece_x+1] == enemy_color) return true; //direita
+        if (arr[piece_y][piece_x-1] == enemy_color) return true; //esquerdo
 
-        if (arr[piece_x][piece_y-1] == enemy_color) return true; //baixo direto
-        if (arr[piece_x-1][piece_y-1] == enemy_color) return true; //baixo esquerdo
+        if (arr[piece_y-1][piece_x] == enemy_color) return true; //baixo direto
+        if (arr[piece_y-1][piece_x-1] == enemy_color) return true; //baixo esquerdo
     }
 
     if (piece_y>5)
     {
-        if (arr[piece_x][piece_y+1] == enemy_color) return true; //topo direto
-        if (arr[piece_x+1][piece_y+1] == enemy_color) return true; //topo esquerdo
+        if (arr[piece_y+1][piece_x] == enemy_color) return true; //topo direto
+        if (arr[piece_y+1][piece_x+1] == enemy_color) return true; //topo esquerdo
 
-        if (arr[piece_x+1][piece_y] == enemy_color) return true; //direita
-        if (arr[piece_x-1][piece_y] == enemy_color) return true; //esquerdo
+        if (arr[piece_y][piece_x+1] == enemy_color) return true; //direita
+        if (arr[piece_y][piece_x-1] == enemy_color) return true; //esquerdo
 
-        if (arr[piece_x][piece_y-1] == enemy_color) return true; //baixo direto
-        if (arr[piece_x-1][piece_y-1] == enemy_color) return true; //baixo esquerdo
+        if (arr[piece_y-1][piece_x] == enemy_color) return true; //baixo direto
+        if (arr[piece_y-1][piece_x-1] == enemy_color) return true; //baixo esquerdo
     }
 
     return false;
@@ -322,7 +322,7 @@ int main() {
         int test_board[11][11]={{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
                        {-1,1,0,0,0,2,-1,-1,-1,-1,-1},
                        {-1,1,0,0,0,0,2,-1,-1,-1,-1},
-                       {-1,1,0,0,2,0,0,2,-1,-1,-1},
+                       {-1,1,0,0,2,1,0,2,-1,-1,-1},
                        {-1,1,0,0,2,0,0,0,2,-1,-1},
                        {-1,0,1,1,1,0,0,0,2,0,-1},
                        {-1,0,0,1,0,0,0,0,2,-1,-1},
@@ -338,6 +338,9 @@ int main() {
     printf("Check2: %d\n", check2);
     bool check3 = check_move(test_board, 1, 8, 2, 8);
     printf("Check3: %d\n",check3);
+    bool blocked1 = check_block(test_board, 2, 5);
+    bool blocked2 = check_block(test_board, 5, 3);
+    printf("Check blocked1 (false): %d\n Check blocked2 (true): %d\n", blocked1, blocked2);
 
     //bool check = check_jump(test_board, 1, 5, 1, 4);
     //printf("Check1: %d\n", check);
