@@ -32,9 +32,13 @@ void print_board(int arr[11][11])
             continue;
         }
 
-
-
-        printf("[%d]", arr[i][j]);
+        if (arr[i][j] == 0)
+        {
+            printf("[ ]");
+        }
+        else {
+            printf("[%d]", arr[i][j]);
+        }
       }
     
     printf("\n");
@@ -283,16 +287,16 @@ bool check_move(int arr[11][11], int xi, int yi, int xf, int yf) {
         return check_jump(arr, current_color, direction, xi, yi);
     }
 }
-/*
-int move_piece(int *board[11][11], int piece_x, int piece_y, int new_x, int new_y){
-    if (check_block(board,piece_x,piece_y) == true) return 1;
-    //if(valid_move(board,piece_x,piece_y,new_x,new_y) == false) return 2;
 
-    *board[new_x,new_y] = *board[piece_x,piece_y];
-    *board[piece_x,piece_y] = 0;
-    
-    return 0;
-}*/
+    int move_piece(int board[11][11], int piece_x, int piece_y, int new_x, int new_y){
+        if (check_block(board,piece_x,piece_y) == true) return 1;
+        if(check_move(board,piece_x,piece_y,new_x,new_y) == false) return 2;
+
+        board[new_y][new_x] = board[piece_y][piece_x];
+        board[piece_y][piece_x] = 0;
+        
+        return 0;
+    }
 
 /*
     [1][0][0][0][2][-1][-1][-1][-1]
@@ -341,9 +345,13 @@ int main() {
     bool blocked1 = check_block(test_board, 2, 5);
     bool blocked2 = check_block(test_board, 5, 3);
     printf("Check blocked1 (false): %d\n Check blocked2 (true): %d\n", blocked1, blocked2);
+    int result = move_piece(test_board, 4,5,4,4);
+    printf("%i\n", result);
+    print_board(test_board);
 
     //bool check = check_jump(test_board, 1, 5, 1, 4);
     //printf("Check1: %d\n", check);
     return 0;
 }
 
+// 2,7 - 4,2
